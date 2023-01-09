@@ -1,0 +1,10 @@
+credentials:
+  accessKeyID: "ABCDEFGHIJKLMNO123456"
+  secretAccessKey: "abcdefgh123456IJKLMN+OPQRS7890+ABCDEFGH"
+
+route53:
+  hostedZoneID: "ABCEEFG123456789"
+  recordsSet:
+    - name: "ddns.example.com."
+      type: "A"
+      ttl: 300

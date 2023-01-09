@@ -73,21 +73,33 @@ services:
     - EMAIL
 
 
-  ddns:
-    # This provides a ddclient dynamic dns updating cron which is as simple as running it
-    # and editing the ddns/config/ddclient.conf file
-    # https://github.com/linuxserver/docker-ddclient
-    image: linuxserver/ddclient
-    restart: always
-    container_name: ddns
-    depends_on: 
-    - bitwarden
+  # ddns:
+  #   # This provides a ddclient dynamic dns updating cron which is as simple as running it
+  #   # and editing the ddns/config/ddclient.conf file
+  #   # https://github.com/linuxserver/docker-ddclient
+  #   image: linuxserver/ddclient
+  #   restart: always
+  #   container_name: ddns
+  #   depends_on: 
+  #   - bitwarden
+  #   volumes:
+  #   - ${PWD}/ddns:/config
+  #   environment:
+  #   - PUID
+  #   - PGID
+  #   - TZ
+
+  ddns-route53:
+    image: crazymax/ddns-route53:latest
+    container_name: ddns-route53
     volumes:
-    - ${PWD}/ddns:/config
+      - "./ddns-route53.yml:/ddns-route53.yml:ro"
     environment:
-    - PUID
-    - PGID
-    - TZ
+      - "TZ=Europe/Paris"
+      - "SCHEDULE=*/30 * * * *"
+      - "LOG_LEVEL=info"
+      - "LOG_JSON=false"
+    restart: always
 
 
   fail2ban:
